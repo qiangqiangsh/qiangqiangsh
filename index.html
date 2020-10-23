@@ -1,75 +1,161 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html>
+<title>我的个人简历</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 以下是引入的做前端时普遍会用到的library格式 -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<style>
+    html,
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: "Roboto", sans-serif
+    }
+</style>
 
-<div id="ace-content" class="ace-container-shift">
-    <div class="ace-container">
-        <div id="ace-nav-wrap" class="hidden-sm hidden-xs">
-            <div class="ace-nav-cont">
-                <div id="ace-nav-scroll">
-                    <nav id="ace-nav" class="ace-nav">
-                        <ul class="clear-list">
-                            <li>
-                              <a href="index.html" data-tooltip="Home"><img class="avatar avatar-42" src="{{ '/styles/img/show-star.png' | prepend: site.baseurl }}" alt=""></a>
-                            </li>
-                            <li>
-                              <a href="#basic_info" data-tooltip="基本信息"><span class="ace-icon ace-icon-home"></span></a>
-                            </li>
-                            <li>
-                              <a href="#profetional" data-tooltip="职业技能"><span class="ace-icon ace-icon-experience"></span></a>
-                            </li>
+<body class="w3-light-grey">
 
-                            <li>
-                              <a href="#education" data-tooltip="教育经历"><span class="ace-icon ace-icon-portfolio"></span></a>
-                            </li>
-                            
-                            <li>
-                              <a href="#experience" data-tooltip="工作经历"><span class="ace-icon ace-icon-references"></span></a>
-                            </li>
-                            <li>
-                              <a href="#certification" data-tooltip="获得证书"><span class="ace-icon ace-icon-blog"></span></a>
-                            </li>
-                            <li>
-                              <a href="#personal_project" data-tooltip="个人作品"><span class="ace-icon ace-icon-snowflake-o"></span></a>
-                            </li>
-                        </ul>
-                    </nav>
+    <!-- 设置顶部banner背景图片，可以在Ava的git上marster分支ProjectPhotos文件夹里选择自己喜欢的背景图片（具体操作：右键点击图片->复制图片地址->把URL添加到代码里） -->
+   <!-- 图片文件夹地址：https://github.com/AvaWu-AU/git_cv_project/tree/master/ProjectPhotos -->
+   <div class="text-center" style="margin-bottom:0;background-image: url('https://github.com/AvaWu-AU/git_cv_project/blob/master/ProjectPhotos/topBanner2.jpg?raw=true'); background-repeat: no-repeat;
+     background-size: cover;color:#ffffff;padding-top:5rem;padding-bottom : 30rem;background-attachment: fixed;">
+        <h1>强强的个人主页</h1>
+        <p>Welcome!</p>
+    </div>
+    <!-- 顶部导航栏 -->
+    <div style="background-color: #343a40;display:flex;flex-direction: row;justify-content: center;">
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="#">简历内容</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- 页面内容框 -->
+    <div class="w3-content w3-margin-top" style="max-width:1400px;">
+
+        <!-- 页面大小，会根据不同的浏览器自动调整大小，最大宽度1400px-->
+        <div class="container-sm" style="max-width:1400px;">
+            <!-- The Grid -->
+            <div class="row">
+                <!-- 左边栏目 -->
+                <div class="col-sm-4">
+                    <div class="w3-white w3-text-grey w3-card-4">
+                        <div class="w3-display-container">
+                            <!-- 以下在src的双引号内输入你喜欢的照片路径 -->
+                            <div class="col" style="text-align: right;"><img src="https://github.com/AvaWu-AU/git_cv_project/blob/master/ProjectPhotos/%E4%B8%AA%E4%BA%BA%E5%A4%B4%E5%83%8F-HelloWorld%E7%B4%AB%E8%89%B2%E5%B0%8F%E7%BE%8A.png?raw=true"
+                                    style="width:60%;text-align: right;padding:10px 10px;margin:10px 10px;"
+                                    alt="Avatar"></div>
+                            <div class="w3-display-bottomleft w3-container w3-text-black">
+                                <h2>强强</h2>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <p><i class="fa fa-briefcase fa-fw w3-margin-right w3-large w3-text-teal"></i>Student
+                            </p>
+                            <p><i class="fa fa-home fa-fw w3-margin-right w3-large w3-text-teal"></i>中国</p>
+                            <p><i
+                                    class="fa fa-envelope fa-fw w3-margin-right w3-large w3-text-teal"></i>ppsqqmymail@qq.com
+                            </p>
+                            <p><i class="fa fa-phone fa-fw w3-margin-right w3-large w3-text-teal"></i>123456</p>
+                            <hr>
+
+                            <p class="w3-large"><b><i
+                                        class="fa fa-asterisk fa-fw w3-margin-right w3-text-teal"></i>IT技能</b>
+                            </p>
+                            <p style="font-size:1.3rem;"><span class="badge badge-info">Java</span>
+                                <span class="badge badge-info">JavaScript</span>
+                                <span class="badge badge-info">HTML</span>
+                                <span class="badge badge-info">CSS</span>
+                                <span class="badge badge-info">Python</span>
+                            <br>
+                            <p class="w3-large"><b><i class="w3-margin-right w3-text-teal fa fa-diamond"></i>软件使用技能</b>
+                            </p>
+                            <p style="font-size:1.3rem;">
+                                <span class="badge badge-success">Photoshop</span>
+                                <span class="badge badge-success">CAD</span>
+                                <br>
+
+                            <p class="w3-large w3-text-theme"><b><i class="fa fa-globe fa-fw w3-margin-right w3-text-teal"></i>语言</b></p>
+                            <p>普通话</p>
+                            <div class="w3-light-grey w3-round-xlarge">
+                                <div class="w3-round-xlarge w3-teal" style="height:18px;width:80%"></div>
+                            </div>
+                            <p>英语</p>
+                            <div class="w3-light-grey w3-round-xlarge">
+                                <div class="w3-round-xlarge w3-teal" style="height:18px;width:70%"></div>
+                            </div>
+                            <br>
+                        </div>
+                    </div><br>
+                    <!-- 左边栏结束 -->
                 </div>
 
-                <div id="ace-nav-tools" class="hidden">
-                    <span class="ace-icon ace-icon-dots-three-horizontal"></span>
+                <!-- 右边栏内容 -->
+                <div class="col-sm-8">
 
-                    <button id="ace-nav-arrow" class="clear-btn">
-                        <span class="ace-icon ace-icon-chevron-thin-down"></span>
-                    </button>
+                    <div class="w3-container w3-card w3-white w3-margin-bottom">
+                        <h2 class="w3-text-grey w3-padding-16"><i
+                                class="fa fa-suitcase fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>工作经历</h2>
+                        <div class="w3-container">
+                            <h5 class="w3-opacity"><b>学习</b></h5>
+                            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>小学<span
+                                    class="w3-tag w3-teal w3-round">大学</span></h6>
+                            <p>C语言、JAVA、Python</p>
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="w3-container w3-card w3-white w3-margin-bottom">
+                        <h2 class="w3-text-grey w3-padding-16"><i
+                                class="fa fa-certificate fa-fw w3-margin-right w3-xxlarge w3-text-teal"></i>教育经历</h2>
+                        <div class="w3-container">
+                            <h5 class="w3-opacity"><b>苏州科技大学</b></h5>
+                            <h6 class="w3-text-teal"><i class="fa fa-calendar fa-fw w3-margin-right"></i>2015年9月 -
+                                2019年7月
+                            </h6>
+                            <p>理学学士学位</p>
+                            <hr>
+                        </div>
+                    </div>
+
+                    <!-- 右边栏内容结束 -->
                 </div>
+
+                <!-- End Grid -->
             </div>
 
-            <!-- <div class="ace-nav-btm"></div> -->
-        </div><!-- .ace-nav-wrap -->
+            <!-- 页面内容结束 -->
+        </div>
 
-        <div class="ace-paper-stock">
-            <main class="ace-paper clearfix">
-                <div class="ace-paper-cont clear-mrg">
-                    <!-- START: PAGE CONTENT -->
-                    <div class="padd-box clear-mrg">
+        <!-- 页脚代码 -->
+        <footer class="w3-container w3-teal w3-center w3-margin-top" style="font-size:1.2rem;color:#ffffff;">
+            <p>欢迎关注我的社交账号</p>
+            <i class="fa fa-weibo w3-hover-opacity"></i><a
+                href="https://www.https://weibo.com/u/2209935651"
+                style="color:#ffffff;">Weibo-强强de日记</a>
+                  <!-- 页脚代码结束 -->
+        </footer>
+</body>
 
-                    {% include resumer_01-basic.html %}
-
-                    {% include resumer_02-profetional.html %}
-
-                    {% include resumer_03-education.html %}
-
-                    {% include resumer_04-experience.html %}
-
-                    {% include resumer_05-certification.html %}
-
-                    {% include resumer_06-personal_project.html %}
-                        
-                    </div><!-- .padd-box -->
-                <!-- END: PAGE CONTENT -->
-                </div><!-- .ace-paper-cont -->
-            </main><!-- .ace-paper -->
-        </div><!-- .ace-paper-stock -->
-    </div><!-- .ace-container -->
-</div><!-- #ace-content -->
+</html>

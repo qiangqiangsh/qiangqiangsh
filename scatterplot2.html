@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Scatterplot2</title>
+	<link rel="stylesheet" href="/css/scatter.css"> 
+	<script src="/js/d3.min.js"></script>
+</head>
+<body>
+	<svg width="1000" height="700" id="mainsvg" class="svgs"></svg>
+	<script>
+		const svg = d3.select('#mainsvg');
+		const width = +svg.attr('width');
+		const height = +svg.attr('height');
+
+		const margin = {top: 60, right: 650, bottom: 380, left: 100};
+		const margin2 = {top: 60, right: 350, bottom: 380, left: 450};
+		const margin3 = {top: 370, right: 650, bottom: 10, left: 100};
+		const margin4 = {top: 370, right: 350, bottom: 10, left: 450};
+		const margin5 = {top: 530, right: 350, bottom: 10, left: 750};
+
+		const innerWidth = width - margin.left - margin.right;
+		const innerHeight = height - margin.top - margin.bottom;
+
+		const xValue = (datum) => {return datum.O3};
+		const xValue2 = (datum) => {return datum.PM10};
+		const yValue = (datum) => {return datum.PM25};
+		const yValue2 = (datum) => {return datum.NO2};
+		
+		//创建刷选圆点的样式
+		svg.append("style").text(`
+			.point--scanned {
+				fill: orange;
+				fill-opacity: 1;
+				stroke: orange;
+				stroke-width: 3px;
+			}
+
+			.point--selected {
+				r:3;
+				fill: d => z(d.quality);
+				fill-opacity: 0.6;
+				stroke: white;
+				stroke-width: 1px;
+			}
+
+			.point--hidden {
+				r:2;
+				fill: black;
+				fill-opacity: 1;
+				stroke: white;
+				stroke-width: 1.5px;
+			}
+			`);
+
+		//设置空气质量的颜色
+		z = d3.scaleOrdinal()
+		.domain(d3.map(d => d.quality))
+		.range(d3.schemeCategory10);
+
+
+		const render = function(data){
+
+//------------------------------添加比例尺-------------------------------
+        //设定第一张图的x轴比例尺
+        const xScale = d3.scaleLinear()
+        .domain([d3.min(data, xValue), d3.max(data, xValue)])
+        .range([0, innerWidth])
+        .nice();
+
+        //设定第二张图的x轴比例尺
+        const xScale2 = d3.scaleLinear()
+        .domain([d3.min(data, xValue2), d3.max(data, xValue2)])
+        .range([0, innerWidth])
+        .nice();
+
+        //设定第一张图的y轴比例尺
+        const yScale = d3.scaleLinear() 
+        .domain(d3.extent(data, yValue)) 
+        .range([innerHeight,0])
+        .nice();
+
+        //设定第二张图的y轴比例尺
+        const yScale2 = d3.scaleLinear() 
+        .domain(d3.extent(data, yValue2)) 
+        .range([innerHeight,0])
+        .nice();
+
+//------------------------------添加坐标轴刻度------------------------------
+        //添加X轴的坐标轴刻度
+        const xAxis = d3.axisBottom(xScale)
+        .tickSize(-innerHeight)
+        .tickPadding(10)
+        .ticks(6);
+
+        const xAxis2 = d3.axisBottom(xScale2)
+        .tickSize(-innerHeight)
+        .tickPadding(10)
+        .ticks(6);
+
+        //添加Y轴的坐标轴刻度
+        const yAxis = d3.axisLeft(yScale)
+        .tickSize(-innerWidth)
+        .tickPadding(8)
+        .ticks(6);
+
+        const yAxis2 = d3.axisLeft(yScale2)
+        .tickSize(-innerWidth)
+        .tickPadding(8)
+        .ticks(6);
+
+//------------------------------创建第一张散点图-----------------------------
+        //创建第一个散点图的组
+        const g = svg.append('g')
+        .attr("class","g")
+        .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+        //插入圆点
+        circles=g.selectAll('circle')
+        .data(data)
+        .enter() 
+        .append('circle') 
+        .attr('cy', (datum) => { return yScale(yValue(datum))})
+        .attr('cx', (datum) => {return xScale(xValue(datum))}) 
+        .attr("fill", d => z(d.quality))
+        .classed("point--selected",true)
+
+//------------------------------创建第二张散点图------------------------------
+		//创建第二个散点图的组
+		const g2 = svg.append('g')
+		.attr("class","g2")
+		.attr('transform', `translate(${margin2.left}, ${margin2.top})`);
+
+        //插入圆点
+        g2.selectAll('circle')
+        .data(data)
+        .enter() 
+        .append('circle') 
+        .attr('cy', (datum) => { return yScale(yValue(datum))})
+        .attr('cx', (datum) => {return xScale2(xValue2(datum))}) 
+        .attr("fill", d => z(d.quality))
+        .classed("point--selected",true)
+
+//---------------------------创建第三张散点图--------------------------
+		//创建第三个散点图的组
+		const g3 = svg.append('g')
+		.attr("class","g3")
+		.attr('transform', `translate(${margin3.left}, ${margin3.top})`);
+
+        //插入圆点
+        g3.selectAll('circle')
+        .data(data)
+        .enter() 
+        .append('circle') 
+        .attr('cy', (datum) => { return yScale2(yValue2(datum))})
+        .attr('cx', (datum) => {return xScale(xValue(datum))}) 
+        .attr("fill", d => z(d.quality))
+        .classed("point--selected",true)
+
+//---------------------------创建第四张散点图--------------------------
+		//创建第四个散点图的组
+		const g4 = svg.append('g')
+		.attr("class","g4")
+		.attr('transform', `translate(${margin4.left}, ${margin4.top})`);
+
+        //插入圆点
+        g4.selectAll('circle')
+        .data(data)
+        .enter() 
+        .append('circle') 
+        .attr('cy', (datum) => { return yScale2(yValue2(datum))})
+        .attr('cx', (datum) => {return xScale2(xValue2(datum))}) 
+        .attr("fill", d => z(d.quality))
+        .classed("point--selected",true)
+
+//-------------------------创建第一张图的坐标轴------------------------
+		//添加第一张图的y轴
+		let yAxisGroup = g.append('g').call(yAxis);
+		yAxisGroup.append('text')
+		.attr('transform', `rotate(-90)`)
+		.attr('x', -innerHeight / 2)
+		.attr('y', -40)
+		.attr('fill', 'black')
+		.text('PM2.5')
+		.attr('text-anchor', 'middle') 
+		.attr('id', 'PM25');
+		yAxisGroup.selectAll('.domain').remove(); 
+
+        //添加第一张图的x轴
+        let xAxisGroup = g.append('g').call(xAxis)
+        .attr('transform', `translate(${0}, ${innerHeight})`);
+        xAxisGroup.selectAll('.domain').remove();
+
+
+//-------------------------创建第二张图的坐标轴------------------------
+		//添加第二张图的y轴
+		let yAxisGroup2 = g2.append('g').call(yAxis);
+		yAxisGroup2.selectAll('.domain').remove(); 
+
+        //添加第二张图的x轴
+        let xAxisGroup2 = g2.append('g').call(xAxis2)
+        .attr('transform', `translate(${0}, ${innerHeight})`);
+        xAxisGroup2.selectAll('.domain').remove();
+
+//-------------------------创建第三张图的坐标轴------------------------
+		//添加第三张图的y轴
+		let yAxisGroup3 = g3.append('g').call(yAxis2);
+		yAxisGroup3.append('text')
+		.attr('transform', `rotate(-90)`)
+		.attr('x', -innerHeight / 2)
+		.attr('y', -40)
+		.attr('fill', 'black')
+		.text('NO2')
+		.attr('text-anchor', 'middle')  
+		.attr('id', 'NO2');
+		yAxisGroup3.selectAll('.domain').remove(); 
+
+        //添加第三张图的x轴
+        let xAxisGroup3 = g3.append('g').call(xAxis)
+        .attr('transform', `translate(${0}, ${innerHeight})`);
+        xAxisGroup3.append('text')
+        .attr('y', 50)
+        .attr('x', innerWidth / 2)
+        .attr('fill', 'black')
+        .text('O3')
+        .attr('id', 'O3');
+        xAxisGroup3.selectAll('.domain').remove();
+
+//-------------------------创建第四张图的坐标轴------------------------
+		//添加第四张图的y轴
+		let yAxisGroup4 = g4.append('g').call(yAxis2);
+		yAxisGroup4.selectAll('.domain').remove(); 
+
+        //添加第四张图的x轴
+        let xAxisGroup4 = g4.append('g').call(xAxis2)
+        .attr('transform', `translate(${0}, ${innerHeight})`);
+        xAxisGroup4.append('text')
+        .attr('y', 50)
+        .attr('x', innerWidth / 2)
+        .attr('fill', 'black')
+        .text('PM10')
+        .attr('id', 'PM10');
+        xAxisGroup4.selectAll('.domain').remove();
+
+		//--------------------------添加标题-------------------------
+		g.append('text')
+		.text('空气质量散点图')
+		.attr('fill', 'black')
+		.attr('y', -25)
+		.attr('x', innerWidth - 80);
+
+//-------------------------------创建刷选---------------------------------
+		//-------------------------添加刷选-------------------------
+		const brush=d3.select(".g")
+		.call(d3.brush()
+			.extent([
+				[0, 0],
+				[innerWidth, innerHeight]
+				])
+			.on("start",brushstart)
+			.on("brush", updateChart)
+			.on("end",brushend)
+			)
+
+		const brush2=d3.select(".g2")
+		.call(d3.brush()
+			.extent([
+				[0, 0],
+				[innerWidth, innerHeight]
+				])
+			.on("start",brushstart)
+			.on("brush", updateChart2)
+			.on("end",brushend)
+			)
+
+		const brush3=d3.select(".g3")
+		.call(d3.brush()
+			.extent([
+				[0, 0],
+				[innerWidth, innerHeight]
+				])
+			.on("start",brushstart)
+			.on("brush", updateChart3)
+			.on("end",brushend)
+			)
+
+		const brush4=d3.select(".g4")
+		.call(d3.brush()
+			.extent([
+				[0, 0],
+				[innerWidth, innerHeight]
+				])
+			.on("start",brushstart)
+			.on("brush", updateChart4)
+			.on("end",brushend)
+			)
+
+		//取消之前的刷选范围
+		var brushcell;
+		function brushstart() {
+			event=d3.event.selection
+			if (brushcell !== event) {
+				//brushcell=null;
+				//d3.select(brushcell).call(brush.move, null);
+				//d3.select(brushcell).call(brush.move(g,null))
+				//brush.move(g,null)
+				d3.selectAll(brushcell).call(brush.clear)
+				brushCell = event;
+			}
+		}
+
+		//获取选择区域的坐标
+		function isBrushed(brush_coords, cx, cy) {
+			var x0 = brush_coords[0][0],
+			x1 = brush_coords[1][0], 
+			y0 = brush_coords[0][1],
+			y1 = brush_coords[1][1];
+			return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1; 
+		}
+
+		//获取未选择区域的坐标
+		function isnotBrushed(brush_coords, cx, cy) {
+			var x0 = brush_coords[0][0],
+			x1 = brush_coords[1][0],
+			y0 = brush_coords[0][1],
+			y1 = brush_coords[1][1];
+			return x0 > cx || cx > x1 || y0 > cy || cy > y1; 
+		}
+
+		//高亮所选择的区域
+		function updateChart() {
+			extent = d3.event.selection
+			g.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale(d.PM25)) })
+
+			g2.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale(d.PM25)) })
+
+			g3.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale(d.PM25)) })
+
+			g4.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale(d.PM25)) })
+		}
+
+		function updateChart2() {
+			extent = d3.event.selection
+			g.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale(d.PM25)) })
+
+			g2.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale(d.PM25)) })
+
+			g3.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale(d.PM25)) })
+
+			g4.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale(d.PM25)) })
+		}
+
+		function updateChart3() {
+			extent = d3.event.selection
+			g.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale2(d.NO2)) })
+
+			g2.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale2(d.NO2)) })
+
+			g3.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale2(d.NO2)) })
+
+			g4.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale(d.O3), yScale2(d.NO2)) })
+		}
+
+		function updateChart4() {
+			extent = d3.event.selection
+			g.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale2(d.NO2)) })
+
+			g2.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale2(d.NO2)) })
+
+			g3.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale2(d.NO2)) })
+
+			g4.selectAll('circle')
+			.data(data)
+			.classed("point--hidden", function (d) { return isnotBrushed(extent, xScale2(d.PM10), yScale2(d.NO2)) })
+		}
+
+		//未刷选情况下，高亮所有的点
+		function brushend() {
+			event=d3.event.selection
+			if (event==null){
+				g.selectAll('circle')
+				.classed("point--hidden", false);
+
+				g2.selectAll('circle')
+				.classed("point--hidden", false);
+
+				g3.selectAll('circle')
+				.classed("point--hidden", false);
+
+				g4.selectAll('circle')
+				.classed("point--hidden", false);
+			}
+		}
+
+
+
+//---------------------------添加图例--------------------------
+		//设置属性
+		palette = ["#6dbfd6","#FFA500","#3CB371","#f58442"];
+		domains = ["优", "良", "轻度污染", "中度污染"];
+		color = d3.scaleOrdinal(palette).domain(domains);
+
+		//创建图例的组
+		const legend = svg.append('g')
+		.attr('transform', `translate(${margin5.left}, ${margin5.top})`);
+
+		const size = 10;
+		const border_padding = 15;
+		const item_padding = 10;
+		const text_offset = 2;
+
+		//添加边界
+		legend
+		.append('rect')
+		.attr("width", 120)
+		.attr("height", 100)
+		.style("fill", "none")
+		.style("stroke-width", 1)
+		.style("stroke", "gray");
+
+		// Boxes
+		legend.selectAll("boxes")
+		.data(domains)
+		.enter()
+		.append("rect")
+		.attr("x", border_padding)
+		.attr("y", (d, i) => border_padding + (i * (size + item_padding)))
+		.attr("width", size)
+		.attr("height", size)
+		.style("fill", (d) => color(d));
+
+		//添加标签
+		legend.selectAll("labels")
+		.data(domains)
+		.enter()
+		.append("text")
+		.attr('class', 'labels')
+		.attr("x", border_padding + size + item_padding)
+		.attr("y", (d, i) => border_padding + i * (size + item_padding) + (size / 2) + text_offset)
+		//.style("fill", (d) => color(d))
+		.text((d) => d)
+		.attr("text-anchor", "left")
+		.style("alignment-baseline", "middle")
+		.style("font-family", "sans-serif")
+		.style("font-size", "1em");
+
+		legend.append('text')
+		.text('图例')
+		.style("font-size", "1em")
+		.attr('fill', 'black')
+		.attr('y', -10)
+		.attr('x', 0);
+
+		return svg.node();
+
+	}
+
+	//---------------------------读取数据--------------------------
+	d3.csv('./地理数据/aqidata.csv')
+	.then(function(data){
+		data.forEach( datum => {
+			datum.PM25 = +(datum.PM25);
+			datum.O3 = +(datum.O3);
+			datum.NO2 = +(datum.NO2);
+			datum.PM10 = +(datum.PM10);
+			datum.SO2 = +(datum.SO2);
+			datum.CO = +(datum.CO);
+			datum.AQI = +(datum.AQI);
+			datum.TIME = +(datum.TIME);
+		} )
+		console.log(data);
+		console.log(data.map(yValue))
+		render(data);
+	});
+</script>
+</body>
+</html>

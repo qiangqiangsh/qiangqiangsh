@@ -1,0 +1,46 @@
+text{
+    font-size: 1.8em;
+    font-family: sans-serif;
+}
+
+.labels{
+    font-size: 1.2em;
+    font-family: sans-serif;
+}
+
+.tick text{
+    font-size: 1.2em;
+    fill: #635F5D;
+}
+
+.tick line {
+    stroke: #C0C0BB
+}
+
+#PM25{
+    font-size: 1.8em;
+    font-family: Monospace;
+    fill: #505050;
+    stroke: #505050;
+}
+
+#PM10{
+    font-size: 1.8em;
+    font-family: Monospace;
+    fill: #505050;
+    stroke: #505050;
+}
+
+#O3{
+    font-size: 1.8em;
+    font-family: Monospace;
+    fill: #505050;
+    stroke: #505050;
+}
+
+#NO2{
+    font-size: 1.8em;
+    font-family: Monospace;
+    fill: #505050;
+    stroke: #505050;
+}

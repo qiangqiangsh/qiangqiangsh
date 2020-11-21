@@ -485,7 +485,7 @@
 	}
 
 	//---------------------------读取数据--------------------------
-	d3.csv('./地理数据/aqidata.csv')
+	d3.csv('./data/aqidata.csv')
 	.then(function(data){
 		data.forEach( datum => {
 			datum.PM25 = +(datum.PM25);
